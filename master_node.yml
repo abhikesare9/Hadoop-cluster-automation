@@ -1,0 +1,30 @@
+- hosts: master
+  vars_prompt:
+    - name: namenode 
+      prompt: "Enter the folder name for namenode"
+      private: no
+
+
+  tasks:
+    - name: create folder
+      file:
+        path: "{{ namenode }}"
+        state: directory
+
+    - name: to configure hdfs-site.xml
+      template:
+        src: "hdfs-site.xml"
+        dest: "/etc/hadoop/hdfs-site.xml"
+
+    - name: to configure core-site.xml
+      template: 
+        src: "core-site.xml"
+        dest: "/etc/hadoop/core-site.xml"
+
+    - name: format the namemode
+      command: "hadoop namenode -format"
+
+    - name: start the namenode
+      command: "hadoop-daemon.sh start namenode"
+      
+

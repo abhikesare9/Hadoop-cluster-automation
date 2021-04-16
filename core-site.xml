@@ -1,0 +1,7 @@
+
+<configuration>
+<property>
+<name>fs.name.dir</name>
+<value>hdfs://0.0.0.0:9001</value>
+</property>
+</configuration>

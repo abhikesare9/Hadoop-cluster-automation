@@ -1,0 +1,20 @@
+- hosts: all
+  tasks:
+  - name: "copying the jdk software"
+    copy: 
+      src: "/root/jdk-8u171-linux-x64.rpm"
+      dest: "/root"
+
+  - name: "copying the hadoop software from controle node to managed node"
+    copy:
+      src: "/root/hadoop-1.2.1-1.x86_64.rpm"
+      dest: "/root"
+
+
+  - name: "installing jdk on managed node"
+    command: "rpm -i /root/jdk-8u171-linux-x64.rpm"
+    ignore_errors: yes    #if you have previously install then it will giver error so to avoid this
+
+  - name: "installing hadoop "
+    command: "rpm -ivh /root/hadoop-1.2.1-1.x86_64.rpm --force"
+    ignore_errors: yes       #if you have previously install then it will giver error so to avoid this

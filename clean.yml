@@ -1,0 +1,51 @@
+- hosts: master
+  tasks:
+    - name: "master clean up"
+      command: "hadoop-daemon.sh stop namenode"
+      ignore_errors: yes
+
+    - name: "remover packages"
+      command: "rpm -e hadoop-1.2.1-1.x86_64 --allmatches"
+      ignore_errors: yes
+
+
+    - name: remove java
+      command: "rpm -e jdk-8u171-linux-x64 --allmatches"
+      ignore_errors: yes
+
+    - name: delete file
+      command: "rm -rf /root/hadoop-1.2.1-1.x86_64.rpm "
+      ignore_errors: yes
+   
+    - name: delete file
+      command: "rm -rf /root/jdk-8u171-linux-x64.rpm "
+      ignore_errors: yes
+
+
+
+
+- hosts: slaves
+  tasks:
+    - name: "stop cluster"
+      command: "hadoop-daemon.sh stop datanode"
+      ignore_errors: yes
+
+    - name: "remover packages"
+      command: "rpm -e hadoop-1.2.1-1.x86_64 --allmatches"
+      ignore_errors: yes
+
+
+    - name: remove java
+      command: "rpm -e jdk-8u171-linux-x64 --allmatches"
+      ignore_errors: yes
+
+
+    - name: delete file
+      command: "rm -rf /root/hadoop-1.2.1-1.x86_64.rpm"
+      ignore_errors: yes
+      
+
+   
+    - name: delete file
+      command: "rm -rf /root/jdk-8u171-linux-x64.rpm"
+      ignore_errors: yes

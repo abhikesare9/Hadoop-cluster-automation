@@ -1,0 +1,39 @@
+- hosts: slaves
+  vars_prompt:
+    - name: datanode 
+      prompt: "Enter direactory name for datanode"
+      private: no
+
+    - name: namenode_ip
+      prompt: "Enter the ip address of namenode"
+      private: no 
+
+
+  tasks:
+    - name: "create datanode direactory"
+      file:
+        path: "{{ datanode }}"
+        state: directory
+
+    - name: configure hdfs-site.xml for datanode
+      blockinfile:
+        path: "/etc/hadoop/hdfs-site.xml"
+        insertafter: "<configuration>"
+        block:
+          <property>
+          <name>dfs.data.dir<name>
+          <value>{{ datanode }}
+          </propert>
+
+    - name: configure core-site.xml for datanode
+      blockinfile:
+        path: "/etc/hadoop/core-site.xml"
+        insertafter: "<configuration>"
+        block:
+          <property>
+          <name>fs.default.name</name>
+          <value>hdfs://{{ namenode_ip }}:9001</value>
+          </property>
+
+    - name: start hadoop cluster
+      command: "hadoop-daemon.sh start datanode"
